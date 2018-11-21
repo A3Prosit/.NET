@@ -183,7 +183,8 @@ CLR : Langages statiques C# / Java / VB
 
 Année du multicore : 
 - Parall FX: Extensions .NET pour paralléliser des requêtes LINK ou algo en multi-thread
-- 
+	- Il en existe d'autres
+
 ### Divers : 
 
 Codeplex <==> Ancien Github Microsoft
@@ -251,3 +252,157 @@ Dans le manifeste de l'assembly  :
 - Ensemble des autorisations requises pour que l'assembly fonctionne
 
 
+
+## Notes intervenant :
+
+
+.NET est un envrionnement d'exe, qui gère des applis ciblant le .NET framework.
+
+Il contient :
+- Environnement d'exé
+- Librairies de base (FCL : Framework Class Library)
+- D'autres frameworks dedans (applis web, applis lourdes...)
+
+**Langages :** C#, VB.NET, F#
+⇒ Interopérabilité entre langages
+
+Exemples réalisations :
+- Applis bureau windows
+- Site web
+- Applis mobile / android / IOS
+- API Rest
+- Microservices
+- Services Windows
+- Add-In pour office
+- Applications Hololens {...}
+
+Trois plateformes .NET :
+
+**.NET Framework (FX)** : De base
+**.NET Core :** .NET sur multiplateforme + open source
+**Xamarin :** Applis mobiles ==> Mono ( cross plateforme)
+Il existe aussi **.NET STANDARD** avec laquelle on peut faire les trois.
+
+*Silverlight / .NET Compact / DOTGnu : Existe plus *
+
+Avantages .NET :
+- Support microsoft
+- Visual Studio
+- Vaste communauté
+- Beaucoup de docs
+
+==> Utilisé principalement pour les grosses boîtes :) !
+
+
+**Architecture .NET Framework**
+**CLI** : spécification open source, standardisée par ISO/ECMEA
+- Définit un code et un environnement d'exécution permettant plusieurs langages de haut niveau de s'exécuter un différentes plateforme sans besoin de réécriture.
+⇒ Le code est pré compilé ⇒ La compilation se fait au run-time
+
+- \[ ]= CLI
+C# ⇒ Compilateur ⇒ [ CIL  + CLR (Exécuté) ] ==> 010110101101
+
+- [ ]  CIL = Assembleur
+- [ ]  Le CLR génère du code machine optimisé pour la machine ⇒ Common Language Runtime
+	 - Implémentation du CLI
+	 - VM qui gère l'exécution des programmes .NET
+	 - JIT (Just in time) compilation, converti le code en langage machine
+		 - se fait lors du premier appel à une méthode d'une DLL
+		 - code optimisé à la volée en fonction de la machine
+		 - compilé et gardé en mémoire
+		 - lancement long au démarrage, puis très rapide ensuite
+		 - Simplification de code, Methode inlining {...] #Techniques optimisation
+	 - Interagi avec l'OS
+	 - Offre en plus :
+		 - Gestion des threads
+		 - Gestion mémoire
+		 - Gestion exceptions
+		 - Garbage collector
+		  
+	- **DLR** : Interprété mais non compilé au runtime (peut d'intérêt)
+		- S'utilise automatiquement avec mot clé "dynamic", qui permet de faire des appels sur des objets sans vérifications de types.
+
+DLL = Librairies windows (pas obligé en .net)
+- On dit dll "managé" quand utilisé
+- Sous visual Sutdio ⇒ Dans les paramètres on peut ajouter des références DLL
+
+
+GAC : Global Assembly Cache ( c'est un dossier commun dans C/Windows/Microsoft.NET[...] ) :
+	- Installé automatiquement avec le FX
+	- Sur tous les ordinateurs, contient les FLC, mais on peux ajouter d'autres DLL
+	- Permet de gérer efficacement les différentes versions de dll
+	⇒ Il faut que la DLL soit signée pour la mettre dedans.
+
+- Lors de l'exécution d'une assembly par un .NET, l'assembly va chercher :
+	- Librairies en mémoire
+	- GAC
+	- Répertoire d'exécution
+	- Répertoire de l'utilisateur
+
+
+**Les assemblies**
+- exe ou dll
+- contient la CIL
+- contient l'entête de fichier métadonnées (nom méthodes, indépendances)
+- Versionnées + nom + hash
+- Assembly signée (sécurité)
+
+- GC : Garbage Collector ⇒ Automatique :' )
+- Langage PowerShell se base sur .NET
+
+
+Il existe deux versions du FX :
+- Client Profile
+- Server Profile
+
+PS : Rétrocompatibilité entre les versions .NET 
+
+⇒ ILSpy || .NET Reflextor : Permet de retrouver le langage d'origine à partir d'un DLL (pré-compilé)
+
+
+**Nugget :** Gérer les packages .NET :
+
+**Obfuscation :** "ex : PreEmptive Protection" ⇒ Rendre le code peut lisible, voir difficile à décompiler, mais en le gardant fonctionnel
+(par exemple, invisible à ILSpy). ⇒ Il existe des logiciels pour.
+
+
+**Qu'est ce qu'on peut faire avec .NET**
+- Applis consoles:
+- Services windows : OS / reprise sur erreur {...}
+- Applications WinForms : Interface graphique de bureau (Dépassé)
+- WPF : Windows Presentation Foudation = Interface graphique 
+	- Direct X
+	- Interface développée en CAML
+	- Pattern MVVM (DataBinding) conseillé
+	- Technologie
+- ASP.NET : 
+	- Développement d'applications WEB
+	- Deux Framework :
+		- ASP.NET WebForms /!\ Déconseillé à ne pas utiliser
+		- ASP.NET MVC : Utilise le pattern MVC, orienté WEB, requêtes HTTP...
+			- Performant et logique
+			- Langage "razor" pour manipuler le DOM
+			- Actuellement, on tend plus vers des applications Front End JS (Angular, React) et Back End (ASP.NET MVC, ou WEB ABI)
+			- Version encore plus évoluée dans .NET CORE 
+- ASP.NET WEB API
+- ASP.NET SignalR : Framework pour faire un contrôler, intéragir avec un proxy pour push sur le client
+- WCF : Framework de communication sur .NET FX (pas .NET CORE) <==> API REST (SOAP plus utilisé)
+- Entity Framework : ORM  ⇒ On peut utiliser ADO.NET aussi :)
+- LINK (BDD)
+
+**.NET CORE** : 
+- Pas de VB.NET
+- V.2.2
+- Architecture très légère dès le début, on ajout au fur et à mesure
+- Plus rapide que NodeJS
+- 15 ans mais ça a bien évolu
+- Pas couplé à windows
+- Pas aussi complet que FX
+
+C# ⇒ V.8
+
+Dans Microsoft mais pas .NET :
+
+Azur Devops : Gère les dépôts Git ⇒ VSTS ⇒ TFS <==> TeamSystem 2008 ⇒ Connecter avec Visual Studio
+- Templates scrum
+- Pipeline intégration continue (Build / release / déploiement continu)
